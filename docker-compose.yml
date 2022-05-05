@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    ports: 1243:1243
+    environment:
+      POSTGRES_USERNAME: root
+      POSTGRES_PASSWORD: rfhnjirf
+      POSTGRES_DB: DBApp
