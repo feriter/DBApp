@@ -4,10 +4,8 @@ import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class ViewTableForm extends Container {
@@ -63,8 +61,9 @@ public class ViewTableForm extends Container {
             }
         };
         var scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(0, 40, 800, 400);
+        scrollPane.setBounds(20, 40, 750, 400);
         scrollPane.setVisible(true);
+        add(scrollPane);
 
         var tableNameField = new JTextPane();
         tableNameField.setText(tableName);
@@ -73,25 +72,12 @@ public class ViewTableForm extends Container {
         StyleConstants.setAlignment(attr, StyleConstants.ALIGN_CENTER);
         StyleConstants.setFontSize(attr, 25);
         doc.setParagraphAttributes(0, doc.getLength(), attr, false);
-
         tableNameField.setBounds(300, 5, 200, 35);
-        tableNameField.setFont(new Font(Font.MONOSPACED, Font.PLAIN,25));
-        tableNameField.setAlignmentX(Component.CENTER_ALIGNMENT);
         tableNameField.setEditable(false);
-
         add(tableNameField);
-        add(scrollPane);
     }
 
     public Vector<String> getColumnNames() {
         return columnNames;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public Connection getConnection() {
-        return connection;
     }
 }
