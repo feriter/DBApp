@@ -1,14 +1,7 @@
-package ru.nsu.ccfit;
-
-import ru.nsu.ccfit.queryForms.ParameterizedQueries;
-import ru.nsu.ccfit.queryForms.QueryListForm;
-import ru.nsu.ccfit.queryForms.QueryParametersForm;
+package ru.nsu.ccfit.Interface;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.Vector;
+import java.awt.*;
 
 public class MainWindow extends JFrame {
     private int width = 800;
@@ -18,10 +11,13 @@ public class MainWindow extends JFrame {
         super("База данных автопредприятия");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBounds(200, 50, width, height);
+        setBackground(Color.WHITE);
         setLayout(null);
 
-        var manageMenu = new ManageMenu();
-        add(manageMenu);
+//        var manageMenu = new ManageMenu();
+//        add(manageMenu);
+        var mainMenu = new MainMenu();
+        add(mainMenu);
 
         setVisible(true);
     }

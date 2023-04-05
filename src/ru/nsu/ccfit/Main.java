@@ -1,5 +1,7 @@
 package ru.nsu.ccfit;
 
+import ru.nsu.ccfit.Interface.MainWindow;
+
 public class Main {
 
     public static void main(String[] args) {

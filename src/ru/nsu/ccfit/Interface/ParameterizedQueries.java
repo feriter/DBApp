@@ -1,9 +1,10 @@
-package ru.nsu.ccfit.queryForms;
+package ru.nsu.ccfit.Interface;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class ParameterizedQueries {
-    public static ArrayList<String> getQuery(int n) {
+    public static ArrayList<String> getQueryParts(int n) {
         var q = new ArrayList<String>();
         switch (n) {
             case 1:
@@ -22,12 +23,10 @@ public class ParameterizedQueries {
                         "         INNER JOIN vehicles v on persons.vehicle_id = v.id;");
                 break;
             case 4:
-                q.add("SELECT vehicles.id, model, number, length\n" +
+                q.add("SELECT vehicles.id, model, number, length, name\n" +
                         "FROM vehicles\n" +
                         "         INNER JOIN routes r on r.id = vehicles.route_id\n" +
-                        "WHERE (vehicles.vehicle_category = 1)\n" +
-                        "   OR (vehicles.vehicle_category = 2)\n" +
-                        "   OR (vehicles.vehicle_category = 3);");
+                        "WHERE vehicle_category IN (1,2,3);");
                 break;
             case 5:
                 q.add("SELECT date, length, number\n" +
@@ -52,19 +51,26 @@ public class ParameterizedQueries {
                 q.add("';");
                 break;
             case 7:
-                q.add("SELECT workers_heads_masters.name, head_name, master, fid\n" +
-                        "FROM (SELECT name, f.id as faid\n" +
-                        "      FROM persons\n" +
-                        "               INNER JOIN facilities f on persons.id = f.head_id) persons_facilities\n" +
-                        "         INNER JOIN\n" +
-                        "     (SELECT heads_workers.name, head_name, pp.name as master, fid\n" +
-                        "      FROM (SELECT name, head_name, mid, fid\n" +
-                        "            FROM persons\n" +
-                        "                     INNER JOIN (SELECT brigades.id as bid, p.name as head_name, master_id as mid, facility_id as fid\n" +
-                        "                                 FROM brigades\n" +
-                        "                                          INNER JOIN persons p on brigades.head_id = p.id) heads\n" +
-                        "                                on heads.bid = persons.brigade_id) heads_workers\n" +
-                        "               INNER JOIN persons pp on heads_workers.mid = pp.id) workers_heads_masters on faid = fid;");
+                q.add("SELECT qqq.name as worker, head_name as head, master, persons.name as chief\n" +
+                        "FROM (SELECT qq.name, head_name, master, facilities.head_id as fhid\n" +
+                        "      FROM (SELECT workers_heads_masters.name, head_name, master, fid\n" +
+                        "            FROM (SELECT name, f.id as faid\n" +
+                        "                  FROM persons\n" +
+                        "                           INNER JOIN facilities f on persons.id = f.head_id) persons_facilities\n" +
+                        "                     INNER JOIN\n" +
+                        "                 (SELECT heads_workers.name, head_name, pp.name as master, fid\n" +
+                        "                  FROM (SELECT name, head_name, mid, fid\n" +
+                        "                        FROM persons\n" +
+                        "                                 INNER JOIN (SELECT brigades.id as bid,\n" +
+                        "                                                    p.name      as head_name,\n" +
+                        "                                                    master_id   as mid,\n" +
+                        "                                                    facility_id as fid\n" +
+                        "                                             FROM brigades\n" +
+                        "                                                      INNER JOIN persons p on brigades.head_id = p.id) heads\n" +
+                        "                                            on heads.bid = persons.brigade_id) heads_workers\n" +
+                        "                           INNER JOIN persons pp on heads_workers.mid = pp.id) workers_heads_masters on faid = fid) qq\n" +
+                        "               INNER JOIN facilities on fid = facilities.id) qqq\n" +
+                        "         INNER JOIN persons on persons.id = qqq.fhid;");
                 break;
             case 8:
                 q.add("SELECT facility_id, count(v.number)\n" +
@@ -174,5 +180,24 @@ public class ParameterizedQueries {
                 break;
         }
         return p;
+    }
+
+    public static Vector<String> getQueryNames() {
+        var res = new Vector<String>();
+        res.add("car_park");
+        res.add("vehicle_drivers");
+        res.add("drivers_distribution");
+        res.add("routes_distribution");
+        res.add("vehicle_mileage");
+        res.add("vehicle_repairs");
+        res.add("hierarchy");
+        res.add("facility_vehicles");
+        res.add("facility_distribution");
+        res.add("cargos");
+        res.add("repair_details");
+        res.add("vehicle_records");
+        res.add("subordinate");
+        res.add("spec_repairs");
+        return res;
     }
 }

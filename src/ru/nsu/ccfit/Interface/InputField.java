@@ -1,4 +1,4 @@
-package ru.nsu.ccfit;
+package ru.nsu.ccfit.Interface;
 
 import javax.swing.*;
 import java.awt.*;
